@@ -27,7 +27,7 @@ app.post("/order-create", (req, res) => {
 
   //set all orders to processing
   WooCommerce.putAsync(`orders/${order.id}`, { status: "processing" }).then(function (result) {
-    
+    console.log(`set order ${order.id} to processing`)
   });
 
   res.status(200).end(); // Responding is important
