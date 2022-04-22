@@ -1,0 +1,129 @@
+
+{
+    "id": 602,
+    "parent_id": 0,
+    "status": "on-hold",
+    "currency": "USD",
+    "version": "6.3.1",
+    "prices_include_tax": false,
+    "date_created": "2022-04-15T17:24:07",
+    "date_modified": "2022-04-22T01:30:02",
+    "discount_total": "0.00",
+    "discount_tax": "0.00",
+    "shipping_total": "0.00",
+    "shipping_tax": "0.00",
+    "cart_tax": "0.00",
+    "total": "302.76",
+    "total_tax": "0.00",
+    "customer_id": 1,
+    "order_key": "wc_order_hFmhSuKt161Qq",
+    "billing": {
+        "first_name": "brennan",
+        "last_name": "agranoff",
+        "company": "",
+        "address_1": "115 West 27th Street, Suite 1002,",
+        "address_2": "",
+        "city": "New York",
+        "state": "NY",
+        "postcode": "10001",
+        "country": "US",
+        "email": "brennan@vitalcent.com",
+        "phone": "5038663997"
+    },
+    "shipping": {
+        "first_name": "",
+        "last_name": "",
+        "company": "",
+        "address_1": "",
+        "address_2": "",
+        "city": "",
+        "state": "",
+        "postcode": "",
+        "country": "",
+        "phone": ""
+    },
+    "payment_method": "cheque",
+    "payment_method_title": "NET 30 Invoice",
+    "transaction_id": "",
+    "customer_ip_address": "50.38.61.111",
+    "customer_user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.109 Safari/537.36",
+    "created_via": "checkout",
+    "customer_note": "",
+    "date_completed": null,
+    "date_paid": "2022-04-22T01:29:57",
+    "cart_hash": "b158c5e8476fb6eed0052dd7485b1acb",
+    "number": "602",
+    "meta_data": [
+        {
+            "id": 2700,
+            "key": "is_vat_exempt",
+            "value": "no"
+        },
+        {
+            "id": 2704,
+            "key": "_new_order_email_sent",
+            "value": "true"
+        },
+        {
+            "id": 4696,
+            "key": "dfiFeatured",
+            "value": [
+                ""
+            ]
+        }
+    ],
+    "line_items": [
+        {
+            "id": 9,
+            "name": "Scott® Hand Towels - Single-Fold",
+            "product_id": 589,
+            "variation_id": 591,
+            "quantity": 3,
+            "tax_class": "",
+            "subtotal": "302.76",
+            "subtotal_tax": "0.00",
+            "total": "302.76",
+            "total_tax": "0.00",
+            "taxes": [],
+            "meta_data": [
+                {
+                    "id": 89,
+                    "key": "fold-type",
+                    "value": "Single-Fold",
+                    "display_key": "Fold Type",
+                    "display_value": "Single-Fold"
+                }
+            ],
+            "sku": "1700",
+            "price": 100.92,
+            "parent_name": "Scott® Hand Towels"
+        }
+    ],
+    "tax_lines": [],
+    "shipping_lines": [],
+    "fee_lines": [],
+    "coupon_lines": [],
+    "refunds": [],
+    "date_created_gmt": "2022-04-15T17:24:07",
+    "date_modified_gmt": "2022-04-22T01:30:02",
+    "date_completed_gmt": null,
+    "date_paid_gmt": "2022-04-22T01:29:57",
+    "currency_symbol": "$",
+    "_links": {
+        "self": [
+            {
+                "href": "https://breagr1.dream.press/wp-json/wc/v3/orders/602"
+            }
+        ],
+        "collection": [
+            {
+                "href": "https://breagr1.dream.press/wp-json/wc/v3/orders"
+            }
+        ],
+        "customer": [
+            {
+                "href": "https://breagr1.dream.press/wp-json/wc/v3/customers/1"
+            }
+        ]
+    }
+}
