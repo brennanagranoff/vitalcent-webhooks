@@ -157,6 +157,7 @@ async function main() {
   var variantDataArray = [];
   for (var i = 0; i < variantsToUpload.length; i++) {
     currentRow = variantsToUpload[i];
+    var tempVariantArray = [];
     variantData = {
       regular_price: "1.99",
       sku: currentRow["sku"],
@@ -171,7 +172,7 @@ async function main() {
 
     parentProduct = parentProduct[0];
 
-    variantData.parent_product_id = parentProduct.id
+    variantData.parent_product_id = parentProduct.id;
 
     for (key in currentRow) {
       if ((key.includes("attribute") && key.includes("name")) || !key.includes("attribute")) {
@@ -187,19 +188,20 @@ async function main() {
         continue;
       }
 
-      variantData.attributes.push({
+      tempVariantArray.push({
         name: currentRow[`attribute-${attributeNumber}-name`],
         option: currentRow[`attribute-${attributeNumber}-value`],
       });
     }
 
-    // console.log(parentProduct)
+    var loopLength = tempVariantArray.length;
+    for (var r = 0; r < loopLength; r++) {
+      var variantAttribute = tempVariantArray[r];
 
-    for (var s = 0; s < variantData.attributes.length; s++) {
-      var variantAttribute = variantData.attributes[s];
-      variantData.attributes = [];
+
       var parentAttribute = parentProduct.attributes.find((x) => x.name == variantAttribute.name);
-      if ((parentAttribute.variation = true)) {
+
+      if ((parentAttribute.variation == true)) {
         variantData.attributes.push(variantAttribute);
       }
     }
@@ -231,9 +233,10 @@ async function main() {
   });
 
   for (var i = 0; i < results.length; i++) {
-    var variantUpload = (results[i])
-    var parentID = variantUpload.parent_product_id
-    delete variantUpload.parent_product_id
+    var variantUpload = results[i];
+    var parentID = variantUpload.parent_product_id;
+    delete variantUpload.parent_product_id;
+    console.log(variantUpload);
     var createVariant = await WooCommerce.postAsync(`products/${parentID}/variations`, variantUpload);
     if (createVariant.statusCode == "201") {
       console.log(`Successfully created variant: ${variantUpload.sku}`);
