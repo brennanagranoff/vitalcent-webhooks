@@ -1,10 +1,23 @@
-sku,name,product-type,parent-sku,attribute-1-name,attribute-1-value,attribute-2-name,attribute-2-value,attribute-3-name,attribute-3-value,attribute-4-name,attribute-4-value,attribute-5-name,attribute-5-value,Price
-GLOVES,Gloves,parent-variable,,,,,,,,,,,,
-229 -0245,Cranberry Gloves,Child,GLOVES,Size,Medium ,Box Count ,100/Box,Glove Material,Latex ,Powdering,Powder Free ,,,
-088-4734,Patterson Gloves ,Child ,GLOVES,Size,Medium ,Box Count ,100/Box,Glove Material,Latex ,Powdering,Powder Free,,,
-229-0237,Cranberry Gloves ,Child,GLOVES,Size ,Small ,Box Count ,100/Box ,Glove Material ,Latex ,Powdering,Powder Free ,,,
-229-0229,Cranberry Gloves,Child,GLOVES,Size ,Extra Small ,Box Count,100/Box ,Glove Material ,Latex ,Powdering,Powder Free ,,,
-088-4718,Patterson Gloves ,Child ,GLOVES,Size ,Extra Small ,Box Count ,100/Box,Glove Material ,Latex ,Powdering,Powder Free ,,,
-088-4726,Patterson Gloves ,Child ,GLOVES,Size ,Small ,Box Count ,100/Box ,Glove Material ,Latex ,Powdering,Powder Free,,,
-229-0252,Cranberry Gloves ,Child ,GLOVES,Size ,Large ,Box Count ,100/Box ,Glove Material ,Latex ,Powdering,Powder Free ,,,
-037-5840,Braval Gloves ,Child ,GLOVES,Size ,Extra Small ,Box Count ,100/Box ,Glove Material ,Latex ,Powdering,Powder Free ,,,
+sku,name,product-type,image-url,parent-sku,attribute-1-name,attribute-1-value,attribute-2-name,attribute-2-value,attribute-3-name,attribute-3-value,attribute-4-name,attribute-4-value,attribute-5-name,attribute-5-value,attribute-6-name,attribute-6-value,price
+FINISHING-DISCS,Finishing Discs,parent-variable,https://breagr1.dream.press/wp-content/uploads/2022/04/51VE4P6X3L._AC_.jpg,,,,,,,,,,,,,,
+503-0077,Sof-Lex Contouring and Polishing Disc Refill,Child,https://breagr1.dream.press/wp-content/uploads/2022/04/51VE4P6X3L._AC_.jpg,FINISHING-DISCS,Size,1/2 Diameter,Count,85/Pkg,Color,Dark Blue,Grit,Medium,Shape,Disc,Style,Pop-on,2.53
+503-0085,Sof-Lex Contouring and Polishing Disc Refill,Child,https://breagr1.dream.press/wp-content/uploads/2022/04/51VE4P6X3L._AC_.jpg,FINISHING-DISCS,Size,1/2 Diameter,Count,85/Pkg,Color,Black,Grit,Coarse,Shape,Disc,Style,Pop-on,2.53
+503-0051,Sof-Lex Contouring and Polishing Disc Refill,Child,https://breagr1.dream.press/wp-content/uploads/2022/04/51VE4P6X3L._AC_.jpg,FINISHING-DISCS,Size,1/2 Diameter,Count,85/Pkg,Color,Light Blue,Grit,Super Fine,Shape,Disc,Style,Pop-on,2.53
+503-0069,Sof-Lex Contouring and Polishing Disc Refill,Child,https://breagr1.dream.press/wp-content/uploads/2022/04/51VE4P6X3L._AC_.jpg,FINISHING-DISCS,Size,1/2 Diameter,Count,85/Pkg,Color,Medium Blue,Grit,Fine,Shape,Disc,Style,Pop-on,2.53
+503-0010,Sof-Lex Contouring and Polishing Disc Refill,Child,https://breagr1.dream.press/wp-content/uploads/2022/04/51VE4P6X3L._AC_.jpg,FINISHING-DISCS,Size,3/8 Diameter,Count,85/Pkg,Color,Light Blue,Grit,Super Fine,Shape,Disc,Style,Pop-on,2.53
+503-0028,Sof-Lex Contouring and Polishing Disc Refill,Child,https://breagr1.dream.press/wp-content/uploads/2022/04/51VE4P6X3L._AC_.jpg,FINISHING-DISCS,Size,3/8 Diameter,Count,85/Pkg,Color,Medium Blue,Grit,Medium Blue,Shape,Disc,Style,Pop-on,2.53
+503-0044,Sof-Lex Contouring and Polishing Disc Refill,Child,https://breagr1.dream.press/wp-content/uploads/2022/04/51VE4P6X3L._AC_.jpg,FINISHING-DISCS,Size,3/8 Diameter,Count,85/Pkg,Color,Black,Grit,Coarse,Shape,Disc,Style,Pop-on,2.53
+503-0036,Sof-Lex Contouring and Polishing Disc Refill,Child,https://breagr1.dream.press/wp-content/uploads/2022/04/51VE4P6X3L._AC_.jpg,FINISHING-DISCS,Size,3/8 Diameter,Count,85/Pkg,Color,Dark Blue,Grit,Medium,Shape,Disc,Style,Pop-on,2.53
+GLOVES,Gloves,parent-variable,https://breagr1.dream.press/wp-content/uploads/2022/04/BY6I5323-1.jpg,,,,,,,,,,,,,,
+229 -0245,Cranberry Gloves,Child,https://breagr1.dream.press/wp-content/uploads/2022/04/BY6I5323-1.jpg,GLOVES,Size,Medium,Box Count,100/Box,Glove Material,Latex,Powdering,Powder Free,,,,,2.53
+088-4734,Patterson Gloves,Child,https://breagr1.dream.press/wp-content/uploads/2022/04/BY6I5323-1.jpg,GLOVES,Size,Medium,Box Count,100/Box,Glove Material,Latex,Powdering,Powder Free,,,,,2.53
+229-0237,Cranberry Gloves,Child,https://breagr1.dream.press/wp-content/uploads/2022/04/BY6I5323-1.jpg,GLOVES,Size,Small,Box Count,100/Box,Glove Material,Latex,Powdering,Powder Free,,,,,2.53
+229-0229,Cranberry Gloves,Child,https://breagr1.dream.press/wp-content/uploads/2022/04/BY6I5323-1.jpg,GLOVES,Size,Extra Small,Box Count,100/Box,Glove Material,Latex,Powdering,Powder Free,,,,,2.53
+088-4718,Patterson Gloves,Child,https://breagr1.dream.press/wp-content/uploads/2022/04/BY6I5323-1.jpg,GLOVES,Size,Extra Small,Box Count,100/Box,Glove Material,Latex,Powdering,Powder Free,,,,,2.53
+088-4726,Patterson Gloves,Child,https://breagr1.dream.press/wp-content/uploads/2022/04/BY6I5323-1.jpg,GLOVES,Size,Small,Box Count,100/Box,Glove Material,Latex,Powdering,Powder Free,,,,,2.53
+229-0252,Cranberry Gloves,Child,https://breagr1.dream.press/wp-content/uploads/2022/04/BY6I5323-1.jpg,GLOVES,Size,Large,Box Count,100/Box,Glove Material,Latex,Powdering,Powder Free,,,,,2.53
+037-5840,Braval Gloves,Child,https://breagr1.dream.press/wp-content/uploads/2022/04/BY6I5323-1.jpg,GLOVES,Size,Extra Small,Box Count,100/Box,Glove Material,Latex,Powdering,Powder Free,,,,,2.53
+CUPS,Cups,parent-variable,https://breagr1.dream.press/wp-content/uploads/2022/04/Disposable-Plastic-Cups.jpeg,,,,,,,,,,,,,,
+234-9348,Plastic Cups,Child,https://breagr1.dream.press/wp-content/uploads/2022/04/Disposable-Plastic-Cups.jpeg,CUPS,Size,5oz,Count,1000/Pkg,Color,Dusty Rose,,,,,,,2.53
+085-1444,Patterson Plastic Drinking Cups,Child,https://breagr1.dream.press/wp-content/uploads/2022/04/Disposable-Plastic-Cups.jpeg,CUPS,Size,5oz,Count,1000/Pkg,Color,Lavender,,,,,,,2.53
+234-9330,Plastic Cups,Child,https://breagr1.dream.press/wp-content/uploads/2022/04/Disposable-Plastic-Cups.jpeg,CUPS,Size,5oz,Count,1000/Pkg,Color,Blue,,,,,,,2.53

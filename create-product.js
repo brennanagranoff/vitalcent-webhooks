@@ -29,13 +29,13 @@ async function main() {
   }
 
   //PARENT PRODUCT LOOPS
+        var productAttributes = {};
   for (var i = 0; i < productData.length; i++) {
     var currentRow = productData[i];
 
     if (currentRow["product-type"] == "parent-variable") {
-      var product = { name: currentRow["name"], sku: currentRow["sku"], type: "variable" };
+      var product = { name: currentRow["name"], sku: currentRow["sku"], type: "variable", images:[{"src":currentRow["image-url"]}]  };
       productsToUpload.push(product);
-      var productAttributes = {};
       productAttributes[currentRow["sku"]] = {};
       productAttributes[currentRow["sku"]].names = [];
       productAttributes[currentRow["sku"]].uniqueNames = [];
@@ -159,7 +159,7 @@ async function main() {
     currentRow = variantsToUpload[i];
     var tempVariantArray = [];
     variantData = {
-      regular_price: "1.99",
+      regular_price: currentRow["price"],
       sku: currentRow["sku"],
       attributes: [],
     };
@@ -217,6 +217,10 @@ async function main() {
       if (i == s) {
         continue;
       }
+      //skip if we are talking about two different parent products
+      if (currentVariantInfo.parent_product_id != compareVariantInfo.parent_product_id){
+        continue
+      }
       if (JSON.stringify(currentVariantInfo.attributes) == JSON.stringify(compareVariantInfo.attributes)) {
         variantDataArray[s] = {};
       }
@@ -236,7 +240,7 @@ async function main() {
     var variantUpload = results[i];
     var parentID = variantUpload.parent_product_id;
     delete variantUpload.parent_product_id;
-    console.log(variantUpload);
+    // console.log(variantUpload);
     var createVariant = await WooCommerce.postAsync(`products/${parentID}/variations`, variantUpload);
     if (createVariant.statusCode == "201") {
       console.log(`Successfully created variant: ${variantUpload.sku}`);
