@@ -3,6 +3,7 @@ var WooCommerceAPI = require("woocommerce-api");
 const fs = require("fs");
 const csv = require("csvtojson");
 const { all } = require("express/lib/application");
+const res = require("express/lib/response");
 
 var WooCommerce = new WooCommerceAPI({
   url: "https://breagr1.dream.press",
@@ -153,6 +154,7 @@ async function main() {
   }
 
   //CREATE VARIANT PRODUCTS
+  var variantDataArray = [];
   for (var i = 0; i < variantsToUpload.length; i++) {
     currentRow = variantsToUpload[i];
     variantData = {
@@ -168,6 +170,8 @@ async function main() {
     }
 
     parentProduct = parentProduct[0];
+
+    variantData.parent_product_id = parentProduct.id
 
     for (key in currentRow) {
       if ((key.includes("attribute") && key.includes("name")) || !key.includes("attribute")) {
@@ -188,12 +192,55 @@ async function main() {
         option: currentRow[`attribute-${attributeNumber}-value`],
       });
     }
-    var createVariant = await WooCommerce.postAsync(`products/${parentProduct.id}/variations`, variantData);
+
+    // console.log(parentProduct)
+
+    for (var s = 0; s < variantData.attributes.length; s++) {
+      var variantAttribute = variantData.attributes[s];
+      variantData.attributes = [];
+      var parentAttribute = parentProduct.attributes.find((x) => x.name == variantAttribute.name);
+      if ((parentAttribute.variation = true)) {
+        variantData.attributes.push(variantAttribute);
+      }
+    }
+
+    //check if that variant already exists, if not then add it
+    variantDataArray.push(variantData);
+  }
+
+  for (var i = 0; i < variantDataArray.length; i++) {
+    var currentVariantInfo = variantDataArray[i];
+    for (var s = 0; s < variantDataArray.length; s++) {
+      var compareVariantInfo = variantDataArray[s];
+      if (i == s) {
+        continue;
+      }
+      if (JSON.stringify(currentVariantInfo.attributes) == JSON.stringify(compareVariantInfo.attributes)) {
+        variantDataArray[s] = {};
+      }
+    }
+  }
+
+  //remove empty variations (duplicates)
+  const results = variantDataArray.filter((element) => {
+    if (Object.keys(element).length !== 0) {
+      return true;
+    }
+
+    return false;
+  });
+
+  for (var i = 0; i < results.length; i++) {
+    var variantUpload = (results[i])
+    var parentID = variantUpload.parent_product_id
+    delete variantUpload.parent_product_id
+    var createVariant = await WooCommerce.postAsync(`products/${parentID}/variations`, variantUpload);
     if (createVariant.statusCode == "201") {
-      console.log(`Successfully created variant: ${variantData.sku}`);
+      console.log(`Successfully created variant: ${variantUpload.sku}`);
     } else {
-      console.log(`Error creating variant: ${variantData.sku} --- Error ${createVariant.body}`);
+      console.log(`Error creating variant: ${variantUpload.sku} --- Error ${createVariant.body}`);
     }
   }
 }
+
 main();
