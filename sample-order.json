@@ -112,17 +112,17 @@
     "_links": {
         "self": [
             {
-                "href": "https://breagr1.dream.press/wp-json/wc/v3/orders/602"
+                "href": "https://vitalcent.com/wp-json/wc/v3/orders/602"
             }
         ],
         "collection": [
             {
-                "href": "https://breagr1.dream.press/wp-json/wc/v3/orders"
+                "href": "https://vitalcent.com/wp-json/wc/v3/orders"
             }
         ],
         "customer": [
             {
-                "href": "https://breagr1.dream.press/wp-json/wc/v3/customers/1"
+                "href": "https://vitalcent.com/wp-json/wc/v3/customers/1"
             }
         ]
     }

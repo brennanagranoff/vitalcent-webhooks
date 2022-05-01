@@ -6,7 +6,7 @@ const { all } = require("express/lib/application");
 const res = require("express/lib/response");
 
 var WooCommerce = new WooCommerceAPI({
-  url: "https://breagr1.dream.press",
+  url: "https://vitalcent.com",
   consumerKey: "ck_a57df1fb4a7f64a22e05b3f25ea6da01617ee027",
   consumerSecret: "cs_73a6a650233a895afb0b8ade7f516f1e4f8a13ba",
   wpAPI: true,
@@ -25,22 +25,65 @@ async function main() {
     var currentRow = productData[i];
     productData[i]["sku"] = currentRow["sku"].toUpperCase();
     productData[i]["product-type"] = currentRow["product-type"].toLowerCase();
+    productData[i]["name"] = currentRow["name"].trim();
     productData[i]["parent-sku"] = currentRow["parent-sku"].toUpperCase();
+    for (key in currentRow) {
+      //skip if not an attribute column
+      if (key.includes("attribute")) {
+        productData[i][key] = productData[i][key].toLowerCase();
+      }
+    }
   }
 
   //PARENT PRODUCT LOOPS
-        var productAttributes = {};
+  var productAttributes = {};
   for (var i = 0; i < productData.length; i++) {
     var currentRow = productData[i];
 
     if (currentRow["product-type"] == "parent-variable") {
-      var product = { name: currentRow["name"], sku: currentRow["sku"], type: "variable", images:[{"src":currentRow["image-url"]}]  };
+      var product = { name: currentRow["name"], sku: currentRow["sku"], type: "variable" };
+      if (currentRow["image-url"].length > 0) {
+        product.images = [{ src: currentRow["image-url"] }];
+      }
       productsToUpload.push(product);
       productAttributes[currentRow["sku"]] = {};
       productAttributes[currentRow["sku"]].names = [];
       productAttributes[currentRow["sku"]].uniqueNames = [];
       productAttributes[currentRow["sku"]].values = [];
       productAttributes[currentRow["sku"]].uniqueValues = [];
+    }
+
+    if (currentRow["product-type"] == "parent") {
+      var product = { name: currentRow["name"], sku: currentRow["sku"], regular_price: currentRow["price"], type: "simple", attributes: [] };
+      if (currentRow["image-url"].length > 0) {
+        product.images = [{ src: currentRow["image-url"] }];
+      }
+
+      for (key in currentRow) {
+        //skip if not an attribute column
+        if ((key.includes("attribute") && key.includes("name")) || !key.includes("attribute")) {
+          continue;
+        }
+        //get attribute number
+        var attributeNumber = key.split("-");
+        //grab attribute number
+        attributeNumber = attributeNumber[1];
+        //skip if either is blank
+        if (currentRow[`attribute-${attributeNumber}-name`].length < 1 || currentRow[`attribute-${attributeNumber}-value`].length < 1) {
+          continue;
+        }
+        product.attributes.push({
+          name: currentRow[`attribute-${attributeNumber}-name`],
+          options: [currentRow[`attribute-${attributeNumber}-value`]],
+          visible: true,
+          variation: false,
+        });
+      }
+      if (!product.attributes.length > 0) {
+        delete product.attributes;
+      }
+
+      productsToUpload.push(product);
     }
   }
 
@@ -67,12 +110,14 @@ async function main() {
           continue;
         }
 
-        allAttributes.push({
+        var variantToPush = {
           sku: currentRow["sku"],
           name: currentRow[`attribute-${attributeNumber}-name`],
           parentSku: currentRow["parent-sku"],
           value: currentRow[`attribute-${attributeNumber}-value`],
-        });
+        };
+
+        allAttributes.push(variantToPush);
       }
     }
   }
@@ -127,11 +172,13 @@ async function main() {
       productAttributes[key].attributeData[attributeObjectIndex].options.push(productAttributes[key].uniqueValues[s].value);
     }
 
+    var singleOptionCount = 0;
     for (var s = 0; s < productAttributes[key].attributeData.length; s++) {
       var currentAttribute = productAttributes[key].attributeData[s];
       if (currentAttribute.options.length < 2) {
         currentAttribute.visible = true;
         currentAttribute.variation = false;
+        singleOptionCount = singleOptionCount + 1;
       }
       productAttributes[key].attributeData[s] = currentAttribute;
     }
@@ -144,7 +191,9 @@ async function main() {
 
   //CREATE PARENT PRODUCTS
   for (var i = 0; i < productsToUpload.length; i++) {
-    productsToUpload[i].attributes = productAttributes[productsToUpload[i].sku].attributeData;
+    if (productsToUpload[i].type == "variable") {
+      productsToUpload[i].attributes = productAttributes[productsToUpload[i].sku].attributeData;
+    }
     var createProduct = await WooCommerce.postAsync("products", productsToUpload[i]);
     if (createProduct.statusCode == "201") {
       console.log(`Successfully created SKU: ${productsToUpload[i].sku}`);
@@ -152,7 +201,6 @@ async function main() {
       console.log(`Error creating SKU: ${productsToUpload[i].sku} --- Error ${createProduct.body}`);
     }
   }
-
   //CREATE VARIANT PRODUCTS
   var variantDataArray = [];
   for (var i = 0; i < variantsToUpload.length; i++) {
@@ -163,6 +211,9 @@ async function main() {
       sku: currentRow["sku"],
       attributes: [],
     };
+    if (currentRow["image-url"].length > 0) {
+      variantData.image = { src: currentRow["image-url"] };
+    }
     var parentProduct = await WooCommerce.getAsync(`products?sku=${currentRow["parent-sku"]}`);
     parentProduct = JSON.parse(parentProduct.body);
     if (parentProduct.length != 1) {
@@ -198,10 +249,9 @@ async function main() {
     for (var r = 0; r < loopLength; r++) {
       var variantAttribute = tempVariantArray[r];
 
+      var parentAttribute = parentProduct.attributes.find((x) => x.name.toLowerCase() == variantAttribute.name.toLowerCase());
 
-      var parentAttribute = parentProduct.attributes.find((x) => x.name == variantAttribute.name);
-
-      if ((parentAttribute.variation == true)) {
+      if (parentAttribute.variation == true) {
         variantData.attributes.push(variantAttribute);
       }
     }
@@ -218,8 +268,8 @@ async function main() {
         continue;
       }
       //skip if we are talking about two different parent products
-      if (currentVariantInfo.parent_product_id != compareVariantInfo.parent_product_id){
-        continue
+      if (currentVariantInfo.parent_product_id != compareVariantInfo.parent_product_id) {
+        continue;
       }
       if (JSON.stringify(currentVariantInfo.attributes) == JSON.stringify(compareVariantInfo.attributes)) {
         variantDataArray[s] = {};
@@ -243,9 +293,9 @@ async function main() {
     // console.log(variantUpload);
     var createVariant = await WooCommerce.postAsync(`products/${parentID}/variations`, variantUpload);
     if (createVariant.statusCode == "201") {
-      console.log(`Successfully created variant: ${variantUpload.sku}`);
+      console.log(`Successfully created variant: ${parentID}: ${variantUpload.sku}`);
     } else {
-      console.log(`Error creating variant: ${variantUpload.sku} --- Error ${createVariant.body}`);
+      console.log(`Error creating variant: ${parentID}: ${variantUpload.sku} --- Error ${createVariant.body}`);
     }
   }
 }

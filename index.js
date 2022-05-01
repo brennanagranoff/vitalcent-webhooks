@@ -2,7 +2,7 @@
 var WooCommerceAPI = require("woocommerce-api");
 
 var WooCommerce = new WooCommerceAPI({
-  url: "https://breagr1.dream.press",
+  url: "https://vitalcent.com",
   consumerKey: "ck_a57df1fb4a7f64a22e05b3f25ea6da01617ee027",
   consumerSecret: "cs_73a6a650233a895afb0b8ade7f516f1e4f8a13ba",
   wpAPI: true,
