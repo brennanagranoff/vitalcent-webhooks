@@ -5,6 +5,44 @@ const csv = require("csvtojson");
 const { all } = require("express/lib/application");
 const res = require("express/lib/response");
 
+const categories = {
+  "Autoclave Supplies": 104,
+  "Barrier Protection": 98,
+  "Biohazard Supplies": 100,
+  "Bleaching/Tooth Whitening": 114,
+  "Bur & Diamond Rotary Instruments": 90,
+  "Cotton & Paper Supplies": 84,
+  "Curing Lights & Accessories": 112,
+  "Dispensable Medications": 101,
+  "Dispensing Tips & Applicator Brushes": 96,
+  Endodontics: 99,
+  "Finishing & Polishing Rotary Instruments": 91,
+  "First Aid Kits & Supplies": 89,
+  Handpieces: 107,
+  "Impression Trays": 106,
+  Instruments: 108,
+  "Mixing Wells": 113,
+  "Nitrous Oxide Products": 116,
+  "Office Supplies": 92,
+  "Orthodontic Accessories": 105,
+  "Pemanent & Temporary Cements & Desensitizers": 102,
+  "Personal Protective Equipment": 83,
+  "Pins & Posts": 110,
+  "Preventative & Oral Hygiene Products": 87,
+  "Prophy Angles, Brushes & Cups": 86,
+  "Restorative/Cosmetic Materials": 94,
+  "Retainers, Bands, & Wedges": 95,
+  "Retraction Materials": 109,
+  "Saliva Ejectors, HVE & Aspirator Tips": 85,
+  "Sterilization, Disinfectants, & Line Cleaners": 88,
+  "Surgical Materials": 111,
+  "Temporary Crown & Bridge Material": 103,
+  "Temporary Crown and Bridge Materials": 115,
+  "Topica/Injectable Anesthetics & Needles": 97,
+  Uncategorized: 15,
+  "X-Ray Film & Digital Holders": 93,
+};
+
 var WooCommerce = new WooCommerceAPI({
   url: "https://vitalcent.com",
   consumerKey: "ck_a57df1fb4a7f64a22e05b3f25ea6da01617ee027",
@@ -26,7 +64,11 @@ async function main() {
     productData[i]["sku"] = currentRow["sku"].toUpperCase();
     productData[i]["product-type"] = currentRow["product-type"].toLowerCase();
     productData[i]["name"] = currentRow["name"].trim();
+    productData[i]["category"] = currentRow["category"].trim();
     productData[i]["parent-sku"] = currentRow["parent-sku"].toUpperCase();
+    if (productData[i]["image-url"].length > 2) {
+      productData[i]["image-url"] = productData[i]["image-url"] + "/image.jpg";
+    }
     for (key in currentRow) {
       //skip if not an attribute column
       if (key.includes("attribute")) {
@@ -41,7 +83,9 @@ async function main() {
     var currentRow = productData[i];
 
     if (currentRow["product-type"] == "parent-variable") {
-      var product = { name: currentRow["name"], sku: currentRow["sku"], type: "variable" };
+      var category = categories[currentRow["category"]];
+
+      var product = { name: currentRow["name"], sku: currentRow["sku"], type: "variable", categories: [{ id: category }] };
       if (currentRow["image-url"].length > 0) {
         product.images = [{ src: currentRow["image-url"] }];
       }
@@ -54,7 +98,8 @@ async function main() {
     }
 
     if (currentRow["product-type"] == "parent") {
-      var product = { name: currentRow["name"], sku: currentRow["sku"], regular_price: currentRow["price"], type: "simple", attributes: [] };
+      var category = categories[currentRow["category"]];
+      var product = { name: currentRow["name"], sku: currentRow["sku"], regular_price: currentRow["price"], type: "simple", attributes: [], categories: [{ id: category }] };
       if (currentRow["image-url"].length > 0) {
         product.images = [{ src: currentRow["image-url"] }];
       }

@@ -14,11 +14,15 @@ var WooCommerce = new WooCommerceAPI({
 });
 
 async function main() {
-  var cats = (await WooCommerce.getAsync('products/categories'))
-  cats = JSON.parse(cats.body)
-  console.log(cats)
+  var cats = await WooCommerce.getAsync("products/categories?per_page=100");
+  cats = JSON.parse(cats.body);
+  console.log(cats);
+  var output = {};
+  for (let i = 0; i < cats.length; i++) {
+    const cat = cats[i];
+    output[cat.name] = cat.id;
   }
-
+  console.log(output);
+}
 
 main();
-
